@@ -10,6 +10,24 @@ Thinking	Recording	Learning
 
 
 
+# 该分支计划舍弃仅做存档
+
+20230711更新，跟不上版本了，后面推送的更新均未更新至网页中
+
+202309发现问题
+
+问题1：fork的源repo(cotes2020/jekyll-theme-chirpy)进行了更新，同时自己fork后新建的repo也进行了更新，原作者的更新并未同步至自己的repo中，导致跟不上版本，出现一些bug
+
+问题2：有尝试从源repo向自己新建的repo发起pull requests，但是暂时还不清楚怎么用pull requests解决问题1，Github Desktop/command/VS Code上分别如何使用pull requests并解决问题1。
+
+20230930尝试将源repo的内容覆盖目前自己的repo中，自己并未改动的部分跟随源repo进行改动，但是更新之后，依然跟不上版本，网页中依旧未能显示自己在20230711之后提交的内容。
+
+## 接下来计划：
+
+重新fork一遍最新的源repo，然后再进行一点个性化定制，并把自己的内容相应补充进去。
+
+完成之后封存该分支。
+
 
 
 
