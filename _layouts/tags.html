@@ -3,9 +3,8 @@ layout: page
 # All the Tags of posts.
 ---
 
-<div id="tags" class="d-flex flex-wrap ml-xl-2 mr-xl-2">
-
-  {% assign tags = "" | split: "" %}
+<div id="tags" class="d-flex flex-wrap mx-xl-2">
+  {% assign tags = '' | split: '' %}
   {% for t in site.tags %}
     {% assign tags = tags | push: t[0] %}
   {% endfor %}
@@ -14,36 +13,10 @@ layout: page
 
   {% for t in sorted_tags %}
     <div>
-      <a class="tag" href="{{ site.baseurl }}/tags/{{ t | slugify | url_encode }}/">{{ t }}<span class="text-muted">{{ site.tags[t].size }}</span></a>
+      <a class="tag" href="{{ t | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">
+        {{ t -}}
+        <span class="text-muted">{{ site.tags[t].size }}</span>
+      </a>
     </div>
-    {% endfor %}
-
-</div>
-
-
-<br></br>
-
-  <div class="tags">
-  {% for tag in site.tags %}
-    <h2 id="{{ tag[0] }}">
-      {{ tag[0] }}
-    </h2>
-	
-      {% for post in tag[1] %}
-	  
-		
-		  <ul class="post-content pl-0">
-			{% assign post_long_df = site.data.date_format.post.long | default: '%b %e, %Y' %}
-
-			<li class="d-flex justify-content-between pl-md-3 pr-md-3">
-			  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-			  <span class="dash flex-grow-1"></span>
-			  <span class="text-muted small">{{ post.date | date: post_long_df }}</span>
-			</li>
-		  </ul>
-
-
-      {% endfor %}
-	
   {% endfor %}
 </div>
