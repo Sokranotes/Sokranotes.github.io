@@ -13,7 +13,7 @@ typora-root-url: ..
 # Hello, world!
 
 
-![img](/assets/img/2021-07-13-hello jekyll/avatar.jpg)
+![Sokranotes](/assets/img/2021-07-13-hello jekyll/avatar.jpg)
 
 
 ## 博客搭建过程

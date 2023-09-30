@@ -8,10 +8,11 @@ typora-root-url: ..
 ## Sokranotes | 苏格拉没有底
 
 <p align="left">
-    <img width='55px' src="https://img.shields.io/badge/CS-%E5%B0%8F%E7%A1%95-orange">&ensp;
-    <img width='70px' src="https://img.shields.io/badge/MBTI-INFP-blue">&ensp;&ensp;&ensp;&ensp;
-    <img width='140px' src="https://img.shields.io/badge/classical%20music-%E5%8F%A4%E5%85%B8%E9%9F%B3%E4%B9%90-brightgreen">
+    <img width='55px' src="https://img.shields.io/badge/CS-%E5%B0%8F%E7%A1%95-orange" alt="cs小硕">&ensp;
+    <img width='70px' src="https://img.shields.io/badge/MBTI-INFP-blue" alt="INFP">&ensp;&ensp;&ensp;&ensp;
+    <img width='140px' src="https://img.shields.io/badge/classical%20music-%E5%8F%A4%E5%85%B8%E9%9F%B3%E4%B9%90-brightgreen" alt="古典音乐">
 </p>
+
 
 
 闲暇听听音乐，看看书，养养花草，做点自己喜欢的事情~
@@ -26,11 +27,11 @@ typora-root-url: ..
 
 维瓦尔第，泰勒曼，巴赫，海顿，莫扎特，贝多芬，肖邦，舒伯特，李斯特，老柴，拉赫，舒曼，德沃夏克，德彪西，孟德尔松～
 
-![](/assets/img/about/musicians.png)
+![作曲家时代总览图](/assets/img/about/musicians.png)
 
 > 绿色表示巴洛克（Baroque）时期，金黄色表示古典主义（Classical）时期，粉红色表示浪漫主义（Romantic）时期，蓝色表示20世纪（20st century），参考[音乐偏好分析](https://sokranotes.github.io/posts/my-netease-cloud-playlist-data-analysis/)，[古典音乐私人地图](https://sokranotes.github.io/posts/Classical-music-recommendation/)。
 
-![](/assets/img/about/musician_time.png)
+![作曲家时间占比图](/assets/img/about/musician_time.png)
 
 ## 书单
 

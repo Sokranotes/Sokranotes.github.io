@@ -73,7 +73,7 @@ typora-root-url: ..
 
 图4中的颜色表示同上。所有曲目总播放时间达1922.7小时，平均播放19.227小时。前28首曲子的播放时间超过了平均，包含2首纯音乐。
 
-<img src="/assets/img/2021-07-28-my netease cloud playlist data analysis/p4.png" style="zoom:25%;" />
+<img src="/assets/img/2021-07-28-my netease cloud playlist data analysis/p4.png" alt="总时间图" style="zoom:25%;" />
 
 <center>图4 总时间图</center>
 
@@ -85,7 +85,7 @@ typora-root-url: ..
 
 由图6可知，时间占比图同次数占比图类似，但是时间分配不平衡更加明显，100首曲子中，排名前5的曲目的播放次数占到了总播放次数的27%，前20占到了总数的55%，前50占到了总数的81%。
 
-<img src="/assets/img/2021-07-28-my netease cloud playlist data analysis/p6.png" style="zoom:80%;" />
+<img src="/assets/img/2021-07-28-my netease cloud playlist data analysis/p6.png" alt="时间占比图" style="zoom:80%;" />
 
 <center>图6 时间占比图</center>
 
