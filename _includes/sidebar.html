@@ -20,7 +20,9 @@
     <h1 class="site-title">
       <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
     </h1>
-    <p class="site-subtitle fst-italic mb-0">{{ site.tagline }}</p>
+    <p class="site-subtitle fst-italic mb-0"><!-- {{ site.tagline }} -->
+      <div class="site-subtitle font-italic"><img src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png" height="20" width="20" display="inline-block">{{- site.tagline -}}</div>
+    </p>
   </header>
   <!-- .profile-wrapper -->
 
