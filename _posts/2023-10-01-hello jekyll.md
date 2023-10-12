@@ -10,8 +10,6 @@ toc: true
 typora-root-url: ..
 ---
 
-# Hello, world!
-
 
 ![Sokranotes](/assets/img/2021-07-13-hello jekyll/avatar.jpg)
 
