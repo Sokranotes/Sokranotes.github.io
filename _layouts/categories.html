@@ -1,0 +1,332 @@
+---
+layout: page
+# All the Categories of posts
+---
+{% include lang.html %}
+
+{% assign HEAD_PREFIX = 'h_' %}
+{% assign LIST_PREFIX = 'l_' %}
+
+{% assign group_index = 0 %}
+
+{% assign sort_categories = site.categories | sort %}
+
+<style>
+  /* 修复文章标题与目录名距离过长问题 */
+  .card.categories {
+    margin-bottom: 0.5rem;
+  }
+
+  .card-header {
+    padding: 0.5rem 1rem;
+  }
+
+  .direct-posts,
+  .sub-categories {
+    margin-top: 0.25rem !important;
+  }
+
+  .content.ps-0 {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .content.ps-0 > li {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  /* 修复下划线问题 - 无偏移方案 */
+  .post-title {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .post-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+    transform-origin: bottom left;
+    pointer-events: none;
+  }
+
+  .post-title:hover::after {
+    transform: scaleX(1);
+  }
+
+  .post-title-container {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1.2;
+  }
+
+  /* 添加子目录缩进 */
+  .sub-category-item {
+    padding-left: 1.5rem;
+  }
+
+  /* 子目录文章标题对齐 */
+  .sub-posts .content.ps-0 > li {
+    padding-left: 2.5rem;
+  }
+
+  /* 修复子分类折叠按钮贴边问题 */
+  .sub-category-header {
+    padding-left: 1rem; /* 添加左侧内边距 */
+    padding-right: 1rem; /* 添加右侧内边距 */
+  }
+
+  .sub-category-trigger {
+    margin-right: 0.5rem; /* 添加右侧外边距 */
+  }
+</style>
+
+{% for category in sort_categories %}
+  {% assign category_name = category | first %}
+  {% assign posts_of_category = category | last %}
+  {% assign first_post = posts_of_category | first %}
+
+  {% if category_name == first_post.categories[0] %}
+    {% assign sub_categories = '' | split: '' %}
+    {% assign direct_posts = '' | split: '' %}
+
+    <!-- 区分直接文章和子分类文章 -->
+    {% for post in posts_of_category %}
+      {% assign second_category = post.categories[1] %}
+      {% if second_category %}
+        {% unless sub_categories contains second_category %}
+          {% assign sub_categories = sub_categories | push: second_category %}
+        {% endunless %}
+      {% else %}
+        {% assign direct_posts = direct_posts | push: post %}
+      {% endif %}
+    {% endfor %}
+
+    {% assign sub_categories = sub_categories | sort %}
+    {% assign sub_categories_size = sub_categories | size %}
+    {% assign direct_posts_size = direct_posts | size %}
+
+    {% assign show_content = false %}
+    {% if sub_categories_size > 0 or direct_posts_size > 0 %}
+      {% assign show_content = true %}
+    {% endif %}
+
+    <div class="card categories">
+      <!-- top-category -->
+      <div
+        id="{{ HEAD_PREFIX }}{{ group_index }}"
+        class="card-header d-flex justify-content-between hide-border-bottom"
+      >
+        <span class="ms-2">
+          <i class="far fa-folder{% if show_content %}-open{% endif %} fa-fw"></i>
+
+          {% capture _category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
+          <a href="{{ _category_url | relative_url }}" class="mx-2">{{ category_name }}</a>
+
+          <!-- content count -->
+          {% assign top_posts_size = site.categories[category_name] | size %}
+          <span class="text-muted small font-weight-light">
+            {% if sub_categories_size > 0 %}
+              {{ sub_categories_size }}
+              {% if sub_categories_size > 1 %}
+                {{
+                  site.data.locales[lang].categories.category_measure.plural
+                  | default: site.data.locales[lang].categories.category_measure
+                }}
+              {% else %}
+                {{
+                  site.data.locales[lang].categories.category_measure.singular
+                  | default: site.data.locales[lang].categories.category_measure
+                }}
+              {% endif -%}
+              ,
+            {% endif %}
+
+            {{ top_posts_size }}
+
+            {% if top_posts_size > 1 %}
+              {{
+                site.data.locales[lang].categories.post_measure.plural
+                | default: site.data.locales[lang].categories.post_measure
+              }}
+            {% else %}
+              {{
+                site.data.locales[lang].categories.post_measure.singular
+                | default: site.data.locales[lang].categories.post_measure
+              }}
+            {% endif %}
+          </span>
+        </span>
+
+        <!-- 折叠箭头 -->
+        {% if show_content %}
+          <a
+            href="#{{ LIST_PREFIX }}{{ group_index }}"
+            data-bs-toggle="collapse"
+            aria-expanded="true"
+            aria-label="{{ HEAD_PREFIX }}{{ group_index }}-trigger"
+            class="category-trigger hide-border-bottom"
+          >
+            <i class="fas fa-fw fa-angle-down"></i>
+          </a>
+        {% else %}
+          <span class="category-trigger hide-border-bottom disabled">
+            <i class="fas fa-fw fa-angle-right"></i>
+          </span>
+        {% endif %}
+      </div>
+      <!-- .card-header -->
+
+      <!-- 子分类和直接文章 -->
+      {% if show_content %}
+        <div id="{{ LIST_PREFIX }}{{ group_index }}" class="collapse show" aria-expanded="true">
+          <!-- 直接文章列表 -->
+          {% if direct_posts_size > 0 %}
+            <div class="direct-posts">
+              <ul class="content ps-0">
+                {% for post in direct_posts %}
+                  <li class="d-flex justify-content-between px-md-3">
+                    <div class="post-title-container">
+                      <a href="{{ post.url | relative_url }}" class="post-title">{{ post.title }}</a>
+                    </div>
+                    <span class="dash flex-grow-1"></span>
+                    {% include datetime.html date=post.date class='text-muted small text-nowrap' lang=lang %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          <!-- 子分类列表 -->
+          {% if sub_categories_size > 0 %}
+            <div class="sub-categories">
+              {% for sub_category in sub_categories %}
+                {% assign posts_in_sub = site.categories[sub_category] | sort: 'date' | reverse %}
+                {% assign posts_in_sub_size = posts_in_sub | size %}
+                <div class="sub-category-item">
+                  <!-- 修改这里：添加子分类头部容器 -->
+                  <div class="d-flex justify-content-between align-items-center py-1 sub-category-header">
+                    <span>
+                      <i
+                        class="far {% if posts_in_sub_size > 0 %}fa-folder-open{% else %}fa-folder{% endif %} fa-fw folder-icon"
+                      ></i>
+                      {% capture _sub_ctg_url %}/categories/{{ sub_category | slugify | url_encode }}/{% endcapture %}
+                      <a href="{{ _sub_ctg_url | relative_url }}" class="mx-2">{{ sub_category }}</a>
+                      <span class="text-muted small font-weight-light">
+                        {{ posts_in_sub_size }}
+                        {% if posts_in_sub_size > 1 %}
+                          {{
+                            site.data.locales[lang].categories.post_measure.plural
+                            | default: site.data.locales[lang].categories.post_measure
+                          }}
+                        {% else %}
+                          {{
+                            site.data.locales[lang].categories.post_measure.singular
+                            | default: site.data.locales[lang].categories.post_measure
+                          }}
+                        {% endif %}
+                      </span>
+                    </span>
+
+                    <!-- 修改这里：添加子分类触发器类 -->
+                    {% if posts_in_sub_size > 0 %}
+                      <a
+                        href="#{{ LIST_PREFIX }}_{{ group_index }}_{{ forloop.index }}"
+                        data-bs-toggle="collapse"
+                        aria-expanded="true"
+                        class="category-trigger hide-border-bottom sub-category-trigger"
+                      >
+                        <i class="fas fa-fw fa-angle-down"></i>
+                      </a>
+                    {% else %}
+                      <span class="category-trigger hide-border-bottom disabled sub-category-trigger">
+                        <i class="fas fa-fw fa-angle-right"></i>
+                      </span>
+                    {% endif %}
+                  </div>
+
+                  <!-- 子分类文章列表 -->
+                  {% if posts_in_sub_size > 0 %}
+                    <div id="{{ LIST_PREFIX }}_{{ group_index }}_{{ forloop.index }}" class="collapse show">
+                      <div class="sub-posts">
+                        <ul class="content ps-0">
+                          {% for post in posts_in_sub %}
+                            <li class="d-flex justify-content-between px-md-3">
+                              <div class="post-title-container">
+                                <a href="{{ post.url | relative_url }}" class="post-title">{{ post.title }}</a>
+                              </div>
+                              <span class="dash flex-grow-1"></span>
+                              {% include datetime.html date=post.date class='text-muted small text-nowrap' lang=lang %}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+    <!-- .card -->
+
+    {% assign group_index = group_index | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+<script>
+  // 修复子目录图标状态问题
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.sub-category-item .collapse').forEach(function (collapse) {
+      const folderIcon = collapse.closest('.sub-category-item').querySelector('.folder-icon');
+      const triggerIcon = collapse.closest('.sub-category-item').querySelector('.category-trigger i');
+
+      if (collapse.classList.contains('show')) {
+        folderIcon.classList.remove('fa-folder');
+        folderIcon.classList.add('fa-folder-open');
+        if (triggerIcon) {
+          triggerIcon.classList.remove('fa-angle-right');
+          triggerIcon.classList.add('fa-angle-down');
+        }
+      } else {
+        folderIcon.classList.remove('fa-folder-open');
+        folderIcon.classList.add('fa-folder');
+        if (triggerIcon) {
+          triggerIcon.classList.remove('fa-angle-down');
+          triggerIcon.classList.add('fa-angle-right');
+        }
+      }
+
+      collapse.addEventListener('show.bs.collapse', function (event) {
+        event.stopPropagation();
+        folderIcon.classList.remove('fa-folder');
+        folderIcon.classList.add('fa-folder-open');
+        if (triggerIcon) {
+          triggerIcon.classList.remove('fa-angle-right');
+          triggerIcon.classList.add('fa-angle-down');
+        }
+      });
+
+      collapse.addEventListener('hide.bs.collapse', function (event) {
+        event.stopPropagation();
+        folderIcon.classList.remove('fa-folder-open');
+        folderIcon.classList.add('fa-folder');
+        if (triggerIcon) {
+          triggerIcon.classList.remove('fa-angle-down');
+          triggerIcon.classList.add('fa-angle-right');
+        }
+      });
+    });
+  });
+</script>
